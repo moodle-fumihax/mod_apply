@@ -1,0 +1,7 @@
+#/bin/bash
+
+FLS=`find . -name "*.php"` 
+
+for FL in $FLS ; do
+  php -l $FL
+done
