@@ -27,7 +27,7 @@ chown -R apache.apache apply
 ### submit_only
  This is an item displayed only at the time of an application. This is used for use consent etc.
 ### admin_reply
- Although not displayed on a user at the time of an application, it is displayed after an application.  
+ Although not displayed on a user at the time of an application, it is displayed after an application. 
  Since the administrator can edit, This is uses for the comment from an administrator, etc.
 ### admin_only
  This is an item which can be displayed to only an administrator and can be edited by only an administrator.
