@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 // need $req_own_data, $submit, $data, $name_pattern, $courseid, ...
 

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 // needs $req_own_data, $table, $courseid, $show_all, ....
 

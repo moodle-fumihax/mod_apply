@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 // needs $apply, $submit, $items, $name_pattern, $user
 
