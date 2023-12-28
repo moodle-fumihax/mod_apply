@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Application Form Module v1.0
 //                                        by Fumi.Iseki  2013/05/07
-//                                        mailto:iseki@solar-system.tuis.ac.jp
+//                                        mailto:iseki@rsch.tuis.ac.jp
 //                                        http://www.nsl.tuis.ac.jp
 //
 //    This module is modified from Feedback module (2012112900) by Mr. Andreas Grabs.
