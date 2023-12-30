@@ -1,16 +1,19 @@
 # mod_apply
 
-## Install
-```
-git clone https://github.com/moodle-fumihax/mod_apply.git apply
-chown -R apache.apache apply
-```
 ## OverView
 * This module is for submission of the application form.
 * This module has been created by modifying the feedback module of Andreas Grabs created.
 * This application form module, you will be able to create a simple application form and to submit it to the user.
 * Teacher checks the submitted application and processes it as "accepted" or "reject".
 * On the other hand user can "update" of the submitted application form, and "withdrawn", to perform the "cancellation".
+## Moodle Plugins
+- https://moodle.org/plugins/mod_apply
+
+## Install
+```
+git clone https://github.com/moodle-fumihax/mod_apply.git apply
+chown -R apache.apache apply
+```
 
 ## The difference with the Feedback module
 * You can not post as anonymous (guest).
