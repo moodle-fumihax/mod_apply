@@ -6,7 +6,7 @@ git clone https://github.com/moodle-fumihax/mod_apply.git apply
 chown -R apache.apache apply
 ```
 ## OverView
-* This module is for submission of the application form (for Moodle 2.4).
+* This module is for submission of the application form.
 * This module has been created by modifying the feedback module of Andreas Grabs created.
 * This application form module, you will be able to create a simple application form and to submit it to the user.
 * Teacher checks the submitted application and processes it as "accepted" or "reject".
