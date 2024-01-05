@@ -31,9 +31,10 @@ $plugin->component = 'mod_apply';   // Full name of the module (used for diagnos
 $plugin->cron      = 0;
 $plugin->maturity  = MATURITY_STABLE;
 
-$plugin->release   = '1.4.0';       // update messages
+$plugin->release   = '1.4.1';       // update messages
 
-$plugin->version   = 2023112911;    // modified page show, add export function
+$plugin->version   = 2024010500;    // icon
+//$plugin->version = 2023112911;    // modified page show, add export function
 //$plugin->version = 2020013000;    // fix call message_send
 //$plugin->version = 2019081800;    // minor change for 3.7.1
 //$plugin->version = 2018101000;    // support table
