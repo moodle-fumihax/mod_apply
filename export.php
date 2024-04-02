@@ -126,6 +126,7 @@ if ($action=='excel' or $action=='text') {
                 $params = array('submit_id'=>$submit->id, 'item_id'=>$item, 'version'=>$submit->version);
                 $value  = $DB->get_record('apply_value', $params);
                 if ($value) $datas->data[$i][$j] = $value->value;
+                else        $datas->data[$i][$j] = null;
                 $datas->attr[$i][$j] = $fmts[$j];
                 $j++;
             }
