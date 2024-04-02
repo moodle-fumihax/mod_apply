@@ -125,7 +125,7 @@ if ($action=='excel' or $action=='text') {
             foreach($items as $item) {
                 $params = array('submit_id'=>$submit->id, 'item_id'=>$item, 'version'=>$submit->version);
                 $value  = $DB->get_record('apply_value', $params);
-                $datas->data[$i][$j] = $value->value;
+                if ($value) $datas->data[$i][$j] = $value->value;
                 $datas->attr[$i][$j] = $fmts[$j];
                 $j++;
             }
