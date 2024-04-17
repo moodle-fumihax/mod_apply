@@ -141,12 +141,13 @@ $string['email_user_reject'] = 'Your application was rejected';
 $string['email_user_other']  = 'The administrator has processed your application';
 $string['email_noreply'] = 'This email is automatically. Please do not reply to this email.';
 //
+$string['file'] = 'File';
 $string['only_acked_accept'] = 'Reception Only';
-$string['only_acked_accept_help'] = 'Enable to only accept reception. Specify when processing is not required.'; 
+$string['only_acked_accept_help'] = 'Enable to only accept reception. Specify when processing is not required.';
 $string['enable_deletemode'] = 'Delete Mode';
-$string['enable_deletemode_help'] = 'This enables a teacher to delete all applications.<br />Usually, please set to "No" for safety.'; 
+$string['enable_deletemode_help'] = 'This enables a teacher to delete all applications.<br />Usually, please set to "No" for safety.';
 $string['can_discard'] = 'Can Discard';
-$string['can_discard_help'] = 'Enable cancellation of application.'; 
+$string['can_discard_help'] = 'Enable cancellation of application.';
 $string['date_format']      = 'Display format of date(time)';
 $string['date_format_default'] = '%m/%d/%y %H:%M';
 $string['date_format_help'] = 'Specify display format of date and time. The default is %m/%d/%y %H:%M';
@@ -174,11 +175,11 @@ $string['item_label_help'] = 'Special Labels<br />
 <ul><li>This is an item displayed only at the time of an application. This is used for use consent etc.</li></ul>
 </li>
 <li><strong>admin_reply</strong>
-<ul><li>Although not displayed on a user at the time of an application, it is displayed after an application. 
+<ul><li>Although not displayed on a user at the time of an application, it is displayed after an application.
 Since the administrator can edit, This is uses for the comment from an administrator, etc. </li></ul>
 </li>
 <li><strong>admin_only</strong>
-<ul><li>This is an item which can be displayed to only an administrator and can be edited by only an administrator. 
+<ul><li>This is an item which can be displayed to only an administrator and can be edited by only an administrator.
 It is used for an administrator\'s memo etc.</li></ul>
 </li>
 </ul>';
@@ -273,10 +274,10 @@ $string['item_style_default'] = '';
 $string['item_style_help'] = 'The style of the item. The Default is (  )';
 
 $string['time_close'] = 'Time to close';
-$string['time_close_help'] = 'You can specify times when the apply is accessible for people to answer the applications. 
+$string['time_close_help'] = 'You can specify times when the apply is accessible for people to answer the applications.
 If the checkbox is not ticked there is no limit defined.';
 $string['time_open'] = 'Time to open';
-$string['time_open_help'] = 'You can specify times when the apply is accessible for people to answer the applications. 
+$string['time_open_help'] = 'You can specify times when the apply is accessible for people to answer the applications.
 If the checkbox is not ticked there is no limit defined.';
 $string['title_ack']   = 'Recept.';
 $string['title_before'] = 'Before Submit';

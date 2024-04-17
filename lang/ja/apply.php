@@ -147,12 +147,13 @@ $string['email_user_reject'] = '貴方の申請 「{$a->apply}」 は不受理�
 $string['email_user_other']  = '管理者が申請 「{$a->apply}」 を処理しました．';
 $string['email_noreply'] = 'このメールは自動送信メールです．このメールには返信しないでください．';
 //
+$string['file'] = 'ファイル';
 $string['only_acked_accept'] = '受領のみ';
-$string['only_acked_accept_help'] = '書類受理のみ．処理を行う必要がない場合に指定する．';  
+$string['only_acked_accept_help'] = '書類受理のみ．処理を行う必要がない場合に指定する．'; 
 $string['enable_deletemode'] = '削除モード';
 $string['enable_deletemode_help'] = '承認者が申請書を削除できるようにします．<br />通常は安全のため，必ず "No" に設定しておいてください．';
 $string['can_discard'] = '申請書の取消';
-$string['can_discard_help'] = '提出した申請書の取り消しを有効にする．';   
+$string['can_discard_help'] = '提出した申請書の取り消しを有効にする．';  
 $string['date_format']       = '日付データのフォーマット';
 $string['date_format_default']  = '%y/%m/%d %H:%M';
 $string['date_format_help']  = '日付表示のフォーマットを指定する．デフォルトは %y/%m/%d %H:%M';
@@ -339,7 +340,7 @@ $string['pagebreak_style'] = '印刷用ラインのスタイル';
 $string['pagebreak_style_default'] = '1px solid';
 $string['pagebreak_style_help'] = '印刷用改ページを示すラインのスタイルを指定する (&lt; hr /&gt;). デフォルトは ( 1px solid ). 何も指定しない場合，印刷用の改ページのラインは表示されない．なお，印刷用ラインはサブミット画面およにサブミット画面でのプレビューでは表示されない．';
 
-// 
+//
 $string['downloadexcel'] = 'Excel でダウンロード';
 $string['downloadtext']  = 'テキストでダウンロード';
 

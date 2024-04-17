@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @author  Fumi.Iseki
+ * @author  Fumi.Iseki and Andrew Hancox for file upload
  * @license GNU Public License
  * @package mod_apply (modified from mod_apply/lib.php that by Andreas Grabs)
  */
@@ -106,7 +106,7 @@ function apply_update_instance($apply)
 }
 
 
-function apply_delete_instance($apply_id) 
+function apply_delete_instance($apply_id)
 {
     global $DB;
 
@@ -163,19 +163,19 @@ function apply_print_recent_activity($course, $viewfullnames, $timestart)
 }
 
 
-function apply_get_view_actions() 
+function apply_get_view_actions()
 {
     return array('view', 'view all');
 }
 
 
-function apply_get_post_actions() 
+function apply_get_post_actions()
 {
     return array('submit');
 }
 
 
-function apply_reset_userdata($data) 
+function apply_reset_userdata($data)
 {
     global $CFG, $DB;
 
@@ -222,7 +222,7 @@ function apply_reset_userdata($data)
 // Item Handling
 //
 
-function apply_clean_input_value($item, $value) 
+function apply_clean_input_value($item, $value)
 {
     $itemobj = apply_get_item_class($item->typ);
     return $itemobj->clean_input_value($value);
@@ -279,7 +279,7 @@ function apply_load_apply_items_options()
 }
 
 
-function apply_get_depend_candidates_for_item($apply, $item) 
+function apply_get_depend_candidates_for_item($apply, $item)
 {
     global $DB;
 
@@ -363,8 +363,8 @@ function apply_update_item($item)
 }
 
 
-function apply_delete_item($item_id, $renumber=true, $template=false) 
-{    
+function apply_delete_item($item_id, $renumber=true, $template=false)
+{
     global $DB;
 
     $item = $DB->get_record('apply_item', array('id'=>$item_id));
@@ -374,7 +374,7 @@ function apply_delete_item($item_id, $renumber=true, $template=false)
     if ($template) {
         if ($template->ispublic) {
             $context = context_system::instance();
-        } 
+        }
         else {
             $context = context_course::instance($template->course);
         }
@@ -395,6 +395,13 @@ function apply_delete_item($item_id, $renumber=true, $template=false)
         if ($itemfiles) {
             $fs->delete_area_files($context->id, 'mod_apply', 'item', $item->id);
         }
+    }
+
+    // added by Andrew Hancox
+    $values = $DB->get_records('apply_value', array('item_id'=>$item_id));
+    $fs      = get_file_storage();
+    foreach ($values as $value) {
+        $fs->delete_area_files($context->id, 'mod_apply', 'fileuploads', $value->id);
     }
 
     //
@@ -557,29 +564,55 @@ function apply_move_item($moveitem, $pos)
 }
 
 
+// modified by Andrew Hancox
 function apply_print_item_preview($item)
 {
     if ($item->typ=='pagebreak') return;
 
     $itemobj = apply_get_item_class($item->typ);
+
+    if (method_exists($itemobj, 'setcurrentitem')) {
+        $itemobj->setcurrentitem($item);
+    }
+
     $itemobj->print_item_preview($item);
 }
 
 
-function apply_print_item_submit($item, $value=false, $highlightrequire=false)
+// added valueid by Andrew Hancox
+function apply_print_item_submit($item, $value=false, $highlightrequire=false, $valueid = null)
 {
     if ($item->typ=='pagebreak') return;
 
     $itemobj = apply_get_item_class($item->typ);
+
+    if (method_exists($itemobj, 'set_apply_value_id')) {
+        $itemobj->set_apply_value_id($valueid);
+    }
+
+    if (method_exists($itemobj, 'setcurrentitem')) {
+        $itemobj->setcurrentitem($item);
+    }
+
     $itemobj->print_item_submit($item, $value, $highlightrequire);
 }
 
 
-function apply_print_item_show_value($item, $value=false)
+// added valueid by Andrew Hancox
+function apply_print_item_show_value($item, $value=false, $valueid=false)
 {
     if ($item->typ=='pagebreak') return;
 
     $itemobj = apply_get_item_class($item->typ);
+
+    if (method_exists($itemobj, 'set_apply_value_id')) {
+        $itemobj->set_apply_value_id($valueid);
+    }
+
+    if (method_exists($itemobj, 'setcurrentitem')) {
+        $itemobj->setcurrentitem($item);
+    }
+
     $itemobj->print_item_show_value($item, $value);
 }
 
@@ -645,3 +678,44 @@ function apply_set_calendar_events($apply)
     }
 }
 
+
+/**
+ * Serves the apply files.
+ * @author Andrew Hancox
+ * @param object $course
+ * @param object $cm
+ * @param context $context
+ * @param string $filearea
+ * @param array $args
+ * @param bool $forcedownload
+ * @return bool false if file not found, does not return if found - just send the file
+ */
+function mod_apply_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload) {
+    global $CFG, $DB;
+    require_once("$CFG->libdir/resourcelib.php");
+
+    if ($context->contextlevel != CONTEXT_MODULE) {
+        return false;
+    }
+
+    require_course_login($course, true, $cm);
+    if (!has_capability('mod/apply:view', $context)) {
+        return false;
+    }
+
+    if ($filearea !== 'fileuploads' && $filearea !== 'template_fileuploads') {
+        // intro is handled automatically in pluginfile.php
+        return false;
+    }
+
+    $fs = get_file_storage();
+    $itemid = array_shift($args);
+    $relativepath = implode('/', $args);
+    $fullpath = "/$context->id/mod_apply/$filearea/$itemid/$relativepath";
+    if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
+        return false;
+    }
+
+    // finally send the file
+    send_stored_file($file, 86400, 0, $forcedownload);
+}

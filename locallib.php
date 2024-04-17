@@ -31,7 +31,7 @@ define('APPLY_DEFAULT_PAGE_COUNT',20);
 
 
 //
-require_once(dirname(__FILE__).'/lib.php'); 
+require_once(dirname(__FILE__).'/lib.php');
 
 
 
@@ -47,7 +47,7 @@ function apply_init_session()
 }
 
 
-function apply_get_editor_options() 
+function apply_get_editor_options()
 {
     return array('maxfiles'=>EDITOR_UNLIMITED_FILES, 'trusttext'=>true);
 }
@@ -59,7 +59,7 @@ function apply_get_editor_options()
 // Page Break
 //
 
-function apply_create_pagebreak($apply_id) 
+function apply_create_pagebreak($apply_id)
 {
     global $DB;
 
@@ -82,7 +82,7 @@ function apply_create_pagebreak($apply_id)
 }
 
 
-function apply_get_all_break_positions($apply_id) 
+function apply_get_all_break_positions($apply_id)
 {
     global $DB;
 
@@ -264,8 +264,8 @@ function apply_update_submit($submit)
     if (!$sbmt->id) {
         $sbmit = apply_create_submit($submit->apply_id, $submit->user_id);
     }
-    if (!$sbmt->id) return false; 
-    
+    if (!$sbmt->id) return false;
+
     //
     $submit->id = $sbmt->id;
     $submit->time_modified = time();
@@ -283,6 +283,17 @@ function apply_delete_submit($submit_id)
         return false;
     }
 
+    // added by Andrew Hancox
+    $values = $DB->get_records('apply_value', array('submit_id'=>$submit_id));
+    $fs      = get_file_storage();
+
+    foreach ($values as $value) {
+        $item = $DB->get_record('apply_item', array('id' => $value->item_id));
+        $cm      = get_coursemodule_from_instance('apply', $item->apply_id);
+        $context = context_module::instance($cm->id);
+        $fs->delete_area_files($context->id, 'mod_apply', 'fileuploads', $value->id);
+    }
+
     $DB->delete_records('apply_value', array('submit_id'=>$submit->id));
 
     $ret = $DB->delete_records('apply_submit', array('id'=>$submit->id));
@@ -290,7 +301,7 @@ function apply_delete_submit($submit_id)
 }
 
 
-function apply_delete_all_submits($apply_id) 
+function apply_delete_all_submits($apply_id)
 {
     global $DB;
 
@@ -458,7 +469,7 @@ function apply_exec_submit($submit_id)
 function apply_operate_submit($submit_id, $submit_ver, $accept, $execd)
 {
     global $DB, $USER;
-    
+
     $submit = $DB->get_record('apply_submit', array('id'=>$submit_id, 'version'=>$submit_ver));
     if (!$submit) return false;
 
@@ -534,7 +545,7 @@ function apply_check_values($first_item, $last_item)
 
         if ($itemobj->value_is_array()) {
             $value = optional_param_array($formvalname, null, PARAM_RAW);
-        } 
+        }
         else {
             $value = optional_param($formvalname, null, PARAM_RAW);
         }
@@ -552,7 +563,7 @@ function apply_check_values($first_item, $last_item)
 }
 
 
-function apply_get_item_value($submit_id, $item_id, $version=-1) 
+function apply_get_item_value($submit_id, $item_id, $version=-1)
 {
     global $DB;
 
@@ -569,6 +580,24 @@ function apply_get_item_value($submit_id, $item_id, $version=-1)
 }
 
 
+// added by Andrew Hancox
+function apply_get_item_value_id($submit_id, $item_id, $version=-1)
+{
+    global $DB;
+
+    if ($version<0) {
+        $submit = $DB->get_record('apply_submit', array('id'=>$submit_id));
+        if ($submit) $version = $submit->version;
+        else return null;
+    }
+
+    $params = array('submit_id'=>$submit_id, 'item_id'=>$item_id, 'version'=>$version);
+    $ret = $DB->get_field('apply_value', 'id', $params);
+
+    return $ret;
+}
+
+
 function apply_compare_item_value($submit_id, $item_id, $dependvalue, $version=-1)
 {
     global $DB;
@@ -577,7 +606,36 @@ function apply_compare_item_value($submit_id, $item_id, $dependvalue, $version=-
     $item = $DB->get_record('apply_item', array('id'=>$item_id));
 
     $itemobj = apply_get_item_class($item->typ);
+
+    // added by Andrew Hancox
+    $valueid = apply_get_item_postform($submit_id, $item_id, $dependvalue, $version);
+    if (method_exists($itemobj, 'set_apply_value_id')) {
+        $itemobj->set_apply_value_id($valueid);
+    }
+
+    if (method_exists($itemobj, 'setcurrentitem')) {
+        $itemobj->setcurrentitem($item);
+    }
+
     $ret = $itemobj->compare_value($item, $dbvalue, $dependvalue);
+
+    return $ret;
+}
+
+
+// added by Andrew Hancox
+function apply_get_item_postform($submit_id, $item_id, $dependvalue, $version=-1) {
+    global $DB;
+
+    $item = $DB->get_record('apply_item', array('id'=>$item_id));
+
+    $itemobj = apply_get_item_class($item->typ);
+
+    if (method_exists($itemobj, 'postform')) {
+        $ret = $itemobj->postform($item);
+    } else {
+        $ret = '';
+    }
 
     return $ret;
 }
@@ -637,6 +695,12 @@ function apply_update_draft_values($submit)
         $newvalue->submit_id = $submit->id;
         $newvalue->item_id   = $item->id;
         $newvalue->version   = 0;
+
+        // added by Andrew Hancox
+        if (method_exists($itemobj, 'setcurrentitem')) {
+            $itemobj->setcurrentitem($item);
+        }
+
         $newvalue->value     = $itemobj->create_value($itemvalue);
         $newvalue->time_modified = $time_modified;
 
@@ -651,8 +715,13 @@ function apply_update_draft_values($submit)
             }
         }
         //
+        // modified by Andrew Hancox
         if ($exist) $DB->update_record('apply_value', $newvalue);
-        else        $DB->insert_record('apply_value', $newvalue);
+        else $newvalue->id = $DB->insert_record('apply_value', $newvalue);
+
+        if (method_exists($itemobj, 'postprocessrecord')) {
+            $itemobj->postprocessrecord($newvalue->id);
+        }
 
         // for Title of Draft (version=0)
         if ($title=='') {
@@ -741,6 +810,17 @@ function apply_delete_draft_values($submit_id)
 {
     global $DB;
 
+    // added by Andrew Hancox
+    $values = $DB->get_records('apply_value', array('submit_id'=>$submit_id, 'version'=>0));
+    $fs      = get_file_storage();
+
+    foreach ($values as $value) {
+        $item = $DB->get_record('apply_item', array('id' => $value->item_id));
+        $cm      = get_coursemodule_from_instance('apply', $item->apply_id);
+        $context = context_module::instance($cm->id);
+        $fs->delete_area_files($context->id, 'mod_apply', 'fileuploads', $value->id);
+    }
+
     $DB->delete_records('apply_value', array('submit_id'=>$submit_id, 'version'=>0));
 }
 
@@ -776,6 +856,7 @@ function apply_flush_draft_values($submit_id, $version, &$title)
     $time_modified = time();
 
     foreach($values as $value) {
+        $sourceitemid = $value->id;     // added by Andrew Hancox
         //
         $val = $DB->get_record('apply_value', array('submit_id'=>$submit_id, 'item_id'=>$value->item_id, 'version'=>$version));
         if ($val) {
@@ -783,21 +864,49 @@ function apply_flush_draft_values($submit_id, $version, &$title)
             $value->version = $val->version;
             $value->time_modified = $time_modified;
             $ret = $DB->update_record('apply_value', $value);
+            $targetitemid = $value->id;     // added by Andrew Hancox
         }
         else {
             $value->version = $version;
             $value->time_modified = $time_modified;
             $ret = $DB->insert_record('apply_value', $value);
+            $targetitemid = $ret;           // added by Andrew Hancox
         }
         if (!$ret) break;
 
         //
+        $item = null;
         if ($title=='') {
             $item = $DB->get_record('apply_item', array('id'=>$value->item_id));
             if ($item) {
                 if ($item->label==APPLY_SUBMIT_TITLE_TAG and $item->typ=='textfield') {
                     $title = $value->value;
                 }
+            }
+        }
+
+        // added by Andrew Hancox
+        if (!$item) {
+            $item = $DB->get_record('apply_item', array('id' => $value->item_id));
+        }
+
+        $cm      = get_coursemodule_from_instance('apply', $item->apply_id);
+        $context = context_module::instance($cm->id);
+        $fs      = get_file_storage();
+        $files   = $fs->get_area_files($context->id, 'mod_apply', 'fileuploads', $sourceitemid);
+
+        if ($sourceitemid != $targetitemid) {
+            $fs->delete_area_files($context->id, 'mod_apply', 'fileuploads', $targetitemid);
+        }
+
+        if (!empty($files)) {
+            foreach ($files as $storedfile) {
+                $newfile            = new stdClass();
+                $newfile->component = 'mod_apply';
+                $newfile->filearea  = 'fileuploads';
+                $newfile->itemid    = $targetitemid;
+                $newfile->contextid = $context->id;
+                $fs->create_file_from_storedfile($newfile, $storedfile->get_id());
             }
         }
     }
@@ -815,7 +924,7 @@ function apply_copy_values($submit_id, $fm_ver, $to_ver)
 
     $ret = false;
     $time_modified = time();
-    
+
     foreach($values as $value) {
         $val = $DB->get_record('apply_value', array('submit_id'=>$submit_id, 'item_id'=>$value->item_id, 'version'=>$to_ver));
         if ($val) {
@@ -874,7 +983,7 @@ function apply_get_group_values($item, $groupid = false, $courseid = false, $ign
                 ORDER BY fbc.timemodified';
         $params += array('itemid' => $item->id, 'groupid' => $groupid);
         $values = $DB->get_records_sql($query, $params);
-    } 
+    }
     else {
         $params = array();
         if ($ignore_empty) {
@@ -1038,7 +1147,7 @@ function apply_send_email($cm, $apply, $course, $user_id)
 }
 
 
-function apply_send_email_text($info, $course) 
+function apply_send_email_text($info, $course)
 {
     $coursecontext = context_course::instance($course->id);
     $courseshortname = format_string($course->shortname, true, array('context'=>$coursecontext));
@@ -1141,7 +1250,7 @@ function apply_send_email_user($cm, $apply, $course, $submit, $accept, $execd, $
 }
 
 
-function apply_send_email_text_user($info, $course, $accept, $execd) 
+function apply_send_email_text_user($info, $course, $accept, $execd)
 {
     $coursecontext = context_course::instance($course->id);
     $courseshortname = format_string($course->shortname, true, array('context'=>$coursecontext));
@@ -1304,7 +1413,7 @@ function apply_print_one_initials_bar($table, $alpha, $current, $class, $title, 
 //
 
 /*
-function apply_create_template($courseid, $name, $ispublic=0) 
+function apply_create_template($courseid, $name, $ispublic=0)
 {
     global $DB;
 
@@ -1476,7 +1585,7 @@ function apply_items_from_template($apply, $template_id, $deleteold=false)
 */
 
 
-function apply_get_template_list($course, $onlyownorpublic='') 
+function apply_get_template_list($course, $onlyownorpublic='')
 {
     global $DB;
 
@@ -1485,7 +1594,7 @@ function apply_get_template_list($course, $onlyownorpublic='')
             $templates = $DB->get_records_select('apply_template', 'course = ? OR ispublic=1', array($course->id), 'name');
             break;
         case 'own':
-            $templates = $DB->get_records('apply_template', array('course'=>$course->id), 'name'); 
+            $templates = $DB->get_records('apply_template', array('course'=>$course->id), 'name');
             break;
         case 'public':
             $templates = $DB->get_records('apply_template', array('ispublic'=>1), 'name');
@@ -1533,7 +1642,7 @@ function apply_get_event($cm, $action, $params='', $info='')
         }
     }
 
-    // for Legacy add_to_log()      
+    // for Legacy add_to_log()
     else {
         if ($action=='view') {
             $file = 'view.php';
@@ -1559,7 +1668,7 @@ function apply_get_event($cm, $action, $params='', $info='')
         $event->url     = $file.$param_str;
         $event->info    = $info;
     }
-   
+
     return $event;
 }
 
@@ -1573,7 +1682,7 @@ function apply_get_event($cm, $action, $params='', $info='')
 function apply_open_table_tag($item)
 {
     global $Table_in, $Table_params;
-  
+
     if ($Table_in) return;
 
     $presentation = explode(APPLY_TABLESTART_SEP, $item->presentation);
@@ -1653,14 +1762,14 @@ function apply_open_table_item_tag($title='', $view=false)
     if (!$Table_in or $view) {
         if ($title!='') echo $title;   // outside of table
         if (!$Table_in) return;
-    }    
+    }
 
     if ($Table_params->col==0) echo '<tr>';
     echo '<td '.$Table_params->style[$Table_params->col].'>';
 
     if ($Table_params->disp_iname or $view) {
         if ($title!='') echo $title;   // inside of table
-    }    
+    }
 }
 
 

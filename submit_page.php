@@ -18,7 +18,7 @@ echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
         echo get_string('items_are_required', 'apply');
         echo '</span>';
     }
-    
+
     //
     echo $OUTPUT->box_start('generalbox');
     {
@@ -45,6 +45,7 @@ echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
             // restore value
             $value = '';
             $frmvaluename = $item->typ.'_'.$item->id;
+            $valueid = false;           // added by Andrew Hancox
             if (isset($save_return)) {
                 if (isset($formdata->{$frmvaluename})) {
                     $value = $formdata->{$frmvaluename};
@@ -53,11 +54,13 @@ echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
                 else {
                     //$value = apply_get_item_value($submit_id, $item->id, 0);    // from draft
                     $value = apply_get_item_value($submit_id, $item->id, $submit_ver);
+                    $valueid = apply_get_item_value_id($submit_id, $item->id, $submit_ver);     // added by Andrew Hancox
                 }
             }
             else {
                 if (isset($submit)) {
                     $value = apply_get_item_value($submit_id, $item->id, $submit_ver);
+                    $valueid = apply_get_item_value_id($submit_id, $item->id, $submit_ver);     // added by Andrew Hancox
                 }
             }
 
@@ -67,7 +70,7 @@ echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
                 if ($item->label!=APPLY_ADMIN_REPLY_TAG and $item->label!=APPLY_ADMIN_ONLY_TAG and $item->typ!='fixedtitle') {
                     apply_print_line_space();
                     echo $OUTPUT->box_start('apply_print_item');
-                    apply_print_item_submit($item, $value, $highlightrequired);
+                    apply_print_item_submit($item, $value, $highlightrequired, $valueid);       // modified by Andrew Hancox
                     echo $OUTPUT->box_end();
                 }
                 $last_item = $item;
@@ -134,6 +137,11 @@ echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
 
     //echo '</fieldset>'; // for mobile viewer
     echo '</form>';
+
+    // added by Andrew Hancox
+    foreach ($items as $item) {
+        $value = apply_get_item_postform($submit_id, $item->id, 0);
+    }
 
     //
     //
