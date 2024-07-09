@@ -3,7 +3,15 @@
 // needs $apply, $submit, $items, $name_pattern, $user
 
 require_once('jbxl/jbxl_moodle_tools.php');
+?>
 
+<style type='text/css'>
+  <?php
+    include(__DIR__.'/styles.css');
+  ?>
+</style>
+
+<?php
 if ($submit) {
     //
     echo '<form action="operate_submit.php" method="post">';

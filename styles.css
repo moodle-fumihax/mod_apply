@@ -1,5 +1,9 @@
 /* styles using by apply */
 
+input[type=text], .uneditable-input {
+    max-width: 480px;
+}
+
 .apply_required_mark {
     color: #FF0000;
 }

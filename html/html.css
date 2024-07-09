@@ -1,4 +1,8 @@
 
+input[type=text], .uneditable-input {
+    max-width: 480px;
+}
+
 /* for v3.10 */
 .py-3 {
     padding-top: 0rem !important;

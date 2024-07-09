@@ -1,5 +1,10 @@
-<?php
+<style type='text/css'>
+  <?php
+    include(__DIR__.'/styles.css');
+  ?>
+</style>
 
+<?php
 //
 // submit用のページを生成
 //
