@@ -1321,7 +1321,7 @@ function apply_print_error_messagebox($str, $id, $view_url='mod/apply')
 
     echo $OUTPUT->continue_button($CFG->wwwroot.'/'.$view_url.'/view.php?id='.$id);
     echo $OUTPUT->box_end();
-    echo $OUTPUT->footer();
+    //echo $OUTPUT->footer();
 }
 
 

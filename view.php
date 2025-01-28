@@ -76,7 +76,7 @@ $ccontext = context_course::instance($courseid);
 require_login($course, true, $cm);
 //
 $apply_submit_cap = false;
-if (has_capability('mod/apply:submit', $mcontext)) {
+if (has_capability('mod/apply:submit', $mcontext, $USER->id)) {
     $apply_submit_cap = true;
 }
 
@@ -131,11 +131,10 @@ echo '</div>';
 if ($do_show!='view_one_entry' or !$submit_id) {
     echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
     //echo $OUTPUT->heading(get_string('description', 'apply'), 4);
-    echo format_module_intro('apply', $apply, $cm->id);
+    //echo format_module_intro('apply', $apply, $cm->id);
     require('period_info.php');
     echo $OUTPUT->box_end();
 }
-
 
 ///////////////////////////////////////////////////////////////////////////
 // Check
