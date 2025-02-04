@@ -28,6 +28,7 @@ if (!defined('MOODLE_INTERNAL')) {
 }
 
 require_once($CFG->libdir.'/formslib.php');
+require_once('jbxl/jbxl_moodle_tools.php');
 
 class apply_edit_add_question_form extends moodleform 
 {
@@ -48,8 +49,10 @@ class apply_edit_add_question_form extends moodleform
         $mform->addElement('hidden', 'position');
         $mform->setType('position', PARAM_INT);
 
-        // buttons ボタンが無くとも移動する
-        //$mform->addElement('submit', 'add_item', get_string('add_item', 'apply'));
+        // buttons の表示 
+        if (jbxl_get_moodle_version()>=4.5) {
+            $mform->addElement('submit', 'add_item', get_string('add_item', 'apply'));
+        }
     }
 }
 

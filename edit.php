@@ -287,7 +287,6 @@ if ($do_show=='edit') {
             echo $OUTPUT->box_end();
         }
 
-
         //print the inserted items
         $itempos = 0;
         foreach ($applyitems as $applyitem) {
