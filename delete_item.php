@@ -81,10 +81,14 @@ echo '</style>';
 ///////////////////////////////////////////////////////////////////////////
 /// Print the main part of the page
 
+$item = $DB->get_record('apply_item', array('id'=>$deleteitem));
+
 echo '<div align="center">';
 echo $OUTPUT->heading(format_text($apply->name), 3);
 echo $OUTPUT->box_start('generalbox errorboxcontent boxaligncenter boxwidthnormal');
 echo $OUTPUT->heading(get_string('confirm_delete_item', 'apply'), 4);
+echo $OUTPUT->heading('('.$item->label.') '.$item->name, 5);
+echo '<br/>';
 print_string('related_items_deleted', 'apply');
 echo '</div>';
 

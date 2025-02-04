@@ -326,8 +326,9 @@ if ($do_show=='edit') {
                 $moveupurl = new moodle_url($this_url, array('moveupitem'=>$applyitem->id));
                 $buttonlink = $moveupurl->out();
                 $strbutton = get_string('moveup_item', 'apply');
+                echo '&nbsp;';
                 echo '<a class="icon up" title="'.$strbutton.'" href="'.$buttonlink.'">
-                        <img alt="'.$strbutton.'" src="'.$OUTPUT->image_url('t/up') . '" />
+                        <img alt="'.$strbutton.'" src="'.$OUTPUT->image_url('t/up') . '" height="16" />
                       </a>';
                 echo '</span>';
             }
@@ -338,8 +339,9 @@ if ($do_show=='edit') {
                 $movedownurl = new moodle_url($this_url, $urlparams);
                 $buttonlink = $movedownurl->out();
                 $strbutton = get_string('movedown_item', 'apply');
+                echo '&nbsp;';
                 echo '<a class="icon down" title="'.$strbutton.'" href="'.$buttonlink.'">
-                        <img alt="'.$strbutton.'" src="'.$OUTPUT->image_url('t/down') . '" />
+                        <img alt="'.$strbutton.'" src="'.$OUTPUT->image_url('t/down') . '" height="16" />
                       </a>';
                 echo '</span>';
             }
@@ -348,8 +350,9 @@ if ($do_show=='edit') {
             $moveurl = new moodle_url($this_url, array('moveitem'=>$applyitem->id));
             $buttonlink = $moveurl->out();
             $strbutton = get_string('move_item', 'apply');
+            echo '&nbsp;';
             echo '<a class="editing_move" title="'.$strbutton.'" href="'.$buttonlink.'">
-                    <img alt="'.$strbutton.'" src="'.$OUTPUT->image_url('t/move') . '" />
+                    <img alt="'.$strbutton.'" src="'.$OUTPUT->image_url('t/move') . '" height="16" />
                   </a>';
             echo '</span>';
             //print the button to edit the item
@@ -362,8 +365,9 @@ if ($do_show=='edit') {
                 // and the cmid is the id to get the module
                 $buttonlink = $editurl->out();
                 $strbutton = get_string('edit_item', 'apply');
+                echo '&nbsp;';
                 echo '<a class="editing_update" title="'.$strbutton.'" href="'.$buttonlink.'">
-                        <img alt="'.$strbutton.'" src="'.$OUTPUT->image_url('t/edit') . '" />
+                        <img alt="'.$strbutton.'" src="'.$OUTPUT->image_url('t/edit') . '" height="16" />
                       </a>';
                 echo '</span>';
             }
@@ -382,11 +386,12 @@ if ($do_show=='edit') {
                 $urlparams = array('switchitemrequired'=>$applyitem->id);
                 $requiredurl = new moodle_url($this_url, $urlparams);
                 $buttonlink = $requiredurl->out();
+                echo '&nbsp;';
                 echo '<a class="icon '.
                         'apply_switchrequired" '.
                         'title="'.$buttontitle.'" '.
                         'href="'.$buttonlink.'">'.
-                        '<img alt="'.$buttontitle.'" src="'.$buttonimg.'" />'.
+                        '<img alt="'.$buttontitle.'" src="'.$buttonimg.'" height="16" />'.
                         '</a>';
                 echo '</span>';
             }
@@ -399,8 +404,9 @@ if ($do_show=='edit') {
             $buttonlink = $deleteitemurl->out();
             $strbutton = get_string('delete_item', 'apply');
             $src = $OUTPUT->image_url('t/delete');
+            echo '&nbsp;';
             echo '<a class="icon delete" title="'.$strbutton.'" href="'.$buttonlink.'">
-                    <img alt="'.$strbutton.'" src="'.$src.'" />
+                    <img alt="'.$strbutton.'" src="'.$src.'" height="16" />
                   </a>';
             echo '</span>';
             //
@@ -429,8 +435,9 @@ if ($do_show=='edit') {
                 $buttonlink = $movehereurl->out();
                 $strbutton = get_string('move_here', 'apply');
                 $src = $OUTPUT->image_url('movehere');
+                echo '&nbsp;';
                 echo '<a title="'.$strbutton.'" href="'.$buttonlink.'">
-                        <img class="movetarget" alt="'.$strbutton.'" src="'.$src.'" />
+                        <img class="movetarget" alt="'.$strbutton.'" src="'.$src.'" height="16" />
                       </a>';
                 echo $OUTPUT->box_end();
             }
