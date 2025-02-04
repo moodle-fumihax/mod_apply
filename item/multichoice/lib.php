@@ -734,7 +734,8 @@ class apply_item_multichoice extends apply_item_base
         $info->presentation = '';
         $info->horizontal = false;
 
-        $presen = explode(APPLY_MULTICHOICE_STYLE_FIELD_SEP, $item->presentation);
+        $presen = array(null, null);
+        if ($item->presentation!=null) $presen = explode(APPLY_MULTICHOICE_STYLE_FIELD_SEP, $item->presentation);
         $parts  = explode(APPLY_MULTICHOICE_TYPE_SEP, $presen[0]);
         @list($info->subtype, $info->presentation) = $parts;
 
@@ -743,7 +744,8 @@ class apply_item_multichoice extends apply_item_base
         }
 
         if ($info->subtype != 'd') {
-            $parts = explode(APPLY_MULTICHOICE_ADJUST_SEP, $info->presentation);
+            $parts = array(null, null);
+            if ($info->presentation!=null) $parts = explode(APPLY_MULTICHOICE_ADJUST_SEP, $info->presentation);
             @list($info->presentation, $info->horizontal) = $parts;
             if (isset($info->horizontal) AND $info->horizontal == 1) {
                 $info->horizontal = true;
