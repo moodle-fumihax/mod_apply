@@ -41,30 +41,30 @@ $urlparams['show_all'] = $show_all;
 
 
 if (!confirm_sesskey()) {
-    print_error('invalidsesskey');
+    jbxl_print_error('invalidsesskey');
 }
 
 //
 if (!$submit_id) {
-    print_error('no_submit_data', 'apply', 'mod/apply/view.php?id='.$id.'&do_show=view');
+    jbxl_print_error('no_submit_data', 'apply', 'mod/apply/view.php?id='.$id.'&do_show=view');
 }
 
 $submit = $DB->get_record('apply_submit', array('id'=>$submit_id));
 if (!$submit) {
-    print_error('no_submit_data', 'apply', 'mod/apply/view.php?id='.$id.'&do_show=view');
+    jbxl_print_error('no_submit_data', 'apply', 'mod/apply/view.php?id='.$id.'&do_show=view');
 }
 
 //
 $PAGE->set_url('/mod/apply/delete_submit.php', array('id'=>$id, 'submit_id'=>$submit_id, 'submit_ver'=>$submit_ver));
 
 if (! $cm = get_coursemodule_from_id('apply', $id)) {
-    print_error('invalidcoursemodule');
+    jbxl_print_error('invalidcoursemodule');
 }
 if (! $course = $DB->get_record('course', array('id'=>$cm->course))) {
-    print_error('coursemisconf');
+    jbxl_print_error('coursemisconf');
 }
 if (! $apply = $DB->get_record('apply', array('id'=>$cm->instance))) {
-    print_error('invalidcoursemodule');
+    jbxl_print_error('invalidcoursemodule');
 }
 if (!$courseid) $courseid = $course->id;
 

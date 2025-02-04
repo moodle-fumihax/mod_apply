@@ -55,13 +55,13 @@ $this_action = 'view';
 ////////////////////////////////////////////////////////
 //get the objects
 if (! $cm = get_coursemodule_from_id('apply', $id)) {
-    print_error('invalidcoursemodule');
+    jbxl_print_error('invalidcoursemodule');
 }
 if (! $course = $DB->get_record('course', array('id'=>$cm->course))) {
-    print_error('coursemisconf');
+    jbxl_print_error('coursemisconf');
 }
 if (! $apply = $DB->get_record('apply', array('id'=>$cm->instance))) {
-    print_error('invalidcoursemodule');
+    jbxl_print_error('invalidcoursemodule');
 }
 if (!$courseid) $courseid = $course->id;
 
@@ -76,7 +76,8 @@ $ccontext = context_course::instance($courseid);
 require_login($course, true, $cm);
 //
 $apply_submit_cap = false;
-if (has_capability('mod/apply:submit', $mcontext, $USER->id)) {
+//if (has_capability('mod/apply:submit', $mcontext, $USER->id)) {
+if (apply_can_submit($mcontext, $USER->id, $apply->anyone_submit)) {
     $apply_submit_cap = true;
 }
 

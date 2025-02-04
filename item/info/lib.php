@@ -262,7 +262,7 @@ class apply_item_info extends apply_item_base
             $courseid = $DB->get_field('course_modules', 'course', array('id'=>$cmid));
         }
         if (!$course = $DB->get_record('course', array('id'=>$courseid))) {
-            print_error('error');
+            jbxl_print_error('error');
         }
         if ($course->id !== SITEID) {
             $coursecategory = $DB->get_record('course_categories', array('id'=>$course->category));

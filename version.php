@@ -31,9 +31,9 @@ $plugin->component = 'mod_apply';   // Full name of the module (used for diagnos
 $plugin->cron      = 0;
 $plugin->maturity  = MATURITY_STABLE;
 
-$plugin->release   = '1.5.1';       // update messages
+$plugin->release   = '1.5.2';       // update messages
 
-$plugin->version   = 2025012800;    //
+$plugin->version   = 2025020401;    // anyone submit option
 //$plugin->version = 2024040170;    // v1.5.0  merge Andrew Hancox's file upload function
 //$plugin->version = 2024010500;    // icon
 //$plugin->version = 2023112911;    // modified page show, add export function

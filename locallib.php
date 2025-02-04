@@ -523,6 +523,14 @@ function apply_operate_submit($submit_id, $submit_ver, $accept, $execd)
 
 
 
+function apply_can_submit($context, $userid, $anyone=false)
+{
+    if ($anyone) return true;
+    if (has_capability('mod/apply:submit', $context, $userid)) return true; 
+    return false;
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////////
 //
 // Value Handling

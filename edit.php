@@ -32,7 +32,7 @@ $id = required_param('id', PARAM_INT);
 $courseid = optional_param('courseid', false, PARAM_INT);
 
 if (($formdata = data_submitted()) and !confirm_sesskey()) {
-    print_error('invalidsesskey');
+    jbxl_print_error('invalidsesskey');
 }
 
 $do_show      = optional_param('do_show', 'edit', PARAM_ALPHAEXT);
@@ -49,13 +49,13 @@ $this_action = 'edit';
 $this_url = new moodle_url('/mod/apply/edit.php', array('id'=>$id, 'do_show'=>$do_show, 'show_all'=>$show_all));
 
 if (! $cm = get_coursemodule_from_id('apply', $id)) {
-    print_error('invalidcoursemodule');
+    jbxl_print_error('invalidcoursemodule');
 }
 if (! $course = $DB->get_record("course", array("id"=>$cm->course))) {
-    print_error('coursemisconf');
+    jbxl_print_error('coursemisconf');
 }
 if (! $apply = $DB->get_record("apply", array("id"=>$cm->instance))) {
-    print_error('invalidcoursemodule');
+    jbxl_print_error('invalidcoursemodule');
 }
 if (!$courseid) $courseid = $course->id;
 
@@ -109,7 +109,7 @@ if (isset($create_template_formdata->savetemplate) && $create_template_formdata-
     //check the capabilities to create templates
     if (!has_capability('mod/apply:createprivatetemplate', $context) AND
         !has_capability('mod/apply:createpublictemplate',  $context)) {
-        print_error('cannotsavetempl', 'apply');
+        jbxl_print_error('cannotsavetempl', 'apply');
     }
     if (trim($create_template_formdata->templatename) == '') {
         $savereturn = 'notsaved_name';

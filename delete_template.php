@@ -40,19 +40,19 @@ $this_action = 'delete_template';
 
 //
 if (!confirm_sesskey()) {
-    print_error('invalidsesskey');
+    jbxl_print_error('invalidsesskey');
 }
 
 ////////////////////////////////////////////////////////
 // Get the objects
 if (! $cm = get_coursemodule_from_id('apply', $id)) {
-    print_error('invalidcoursemodule');
+    jbxl_print_error('invalidcoursemodule');
 }
 if (! $course = $DB->get_record('course', array('id'=>$cm->course))) {
-    print_error('coursemisconf');
+    jbxl_print_error('coursemisconf');
 }
 if (! $apply = $DB->get_record('apply', array('id'=>$cm->instance))) {
-    print_error('invalidcoursemodule');
+    jbxl_print_error('invalidcoursemodule');
 }
 if (!$courseid) $courseid = $course->id;
 
@@ -99,7 +99,7 @@ if ($mform->is_cancelled()) {
 
 if (isset($formdata->confirm_delete) and $formdata->confirm_delete==1) {
     if (!$template = $DB->get_record('apply_template', array('id'=>$delete_templ))) {
-        print_error('error');
+        jbxl_print_error('error');
     }
     if ($template->ispublic) {
         $systemcontext = context_system::instance();

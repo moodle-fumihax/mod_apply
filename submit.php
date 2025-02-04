@@ -49,7 +49,7 @@ $highlightrequired = false;
 ///////////////////////////////////////////////////////////////////////////
 // Form Data
 if (($formdata = data_submitted()) and !confirm_sesskey()) {
-    print_error('invalidsesskey');
+    jbxl_print_error('invalidsesskey');
 }
 
 //
@@ -80,7 +80,7 @@ if ($go_page<0 and !$save_values) {
         $go_prev_page = true;
     }
     else {
-        print_error('missingparameter');
+        jbxl_print_error('missingparameter');
     }
 }
 else {
@@ -91,13 +91,13 @@ else {
 ///////////////////////////////////////////////////////////////////////////
 //
 if (! $cm = get_coursemodule_from_id('apply', $id)) {
-    print_error('invalidcoursemodule');
+    jbxl_print_error('invalidcoursemodule');
 }
 if (! $course = $DB->get_record('course', array('id'=>$cm->course))) {
-    print_error('coursemisconf');
+    jbxl_print_error('coursemisconf');
 }
 if (! $apply  = $DB->get_record('apply', array('id'=>$cm->instance))) {
-    print_error('invalidcoursemodule');
+    jbxl_print_error('invalidcoursemodule');
 }
 if (!$courseid) $courseid = $course->id;
 
@@ -108,7 +108,8 @@ $context = context_module::instance($cm->id);
 // Check 1
 require_login($course, true, $cm);
 //
-if (!has_capability('mod/apply:submit', $context)) {
+//if (!has_capability('mod/apply:submit', $context)) {
+if (!apply_can_submit($context, $USER->id, $apply->anyone_submit)) {
     apply_print_error_messagebox('apply_is_disable', $id);
     exit;
 }
@@ -171,7 +172,7 @@ if (!$SESSION->apply->is_started) {
 if ($prev_values) {
     //
     if (!$SESSION->apply->is_started) {
-        //print_error('error', '', $CFG->wwwroot.'/mod/apply/view.php?id='.$id);
+        //jbxl_print_error('error', '', $CFG->wwwroot.'/mod/apply/view.php?id='.$id);
     }
 
 //    if (apply_check_values($start_itempos, $last_itempos) or $save_draft or $go_next_page or $go_prev_page) {
@@ -189,7 +190,7 @@ if ($prev_values) {
         else {
             $save_return = 'failed';
             if (isset($last_page)) $go_page = $last_page;
-            else print_error('missingparameter');
+            else jbxl_print_error('missingparameter');
         }
     }
     //
@@ -197,7 +198,7 @@ if ($prev_values) {
         $save_return = 'missing';
         $highlightrequired = true;
         if (isset($last_page)) $go_page = $last_page;
-        else print_error('missingparameter');
+        else jbxl_print_error('missingparameter');
     }
 }
 

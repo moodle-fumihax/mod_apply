@@ -61,13 +61,13 @@ if ($sort) {
 ////////////////////////////////////////////////////////
 //get the objects
 if (! $cm = get_coursemodule_from_id('apply', $id)) {
-    print_error('invalidcoursemodule');
+    jbxl_print_error('invalidcoursemodule');
 }
 if (! $course = $DB->get_record('course', array('id'=>$cm->course))) {
-    print_error('coursemisconf');
+    jbxl_print_error('coursemisconf');
 }
 if (! $apply = $DB->get_record('apply', array('id'=>$cm->instance))) {
-    print_error('invalidcoursemodule');
+    jbxl_print_error('invalidcoursemodule');
 }
 if (!$courseid) $courseid = $course->id;
 
@@ -83,7 +83,7 @@ require_login($course, true, $cm);
 $formdata = data_submitted();
 if ($formdata) {
     if (!confirm_sesskey()) {
-        print_error('invalidsesskey');
+        jbxl_print_error('invalidsesskey');
     }
     if ($user_id) {
         $formdata->user_id = intval($user_id);

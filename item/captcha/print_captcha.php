@@ -22,20 +22,20 @@ $PAGE->set_url('/mod/apply/item/captcha/print_captcha.php', array('id'=>$id));
 
 if ($id) {
     if (! $cm = get_coursemodule_from_id('apply', $id)) {
-        print_error('invalidcoursemodule');
+        jbxl_print_error('invalidcoursemodule');
     }
 
     if (! $course = $DB->get_record('course', array('id'=>$cm->course))) {
-        print_error('coursemisconf');
+        jbxl_print_error('coursemisconf');
     }
 
     if (! $apply = $DB->get_record('apply', array('id'=>$cm->instance))) {
-        print_error('invalidcoursemodule');
+        jbxl_print_error('invalidcoursemodule');
     }
 }
 
 if (!isset($SESSION->apply->item->captcha)) {
-    print_error('captchanotset', 'apply');
+    jbxl_print_error('captchanotset', 'apply');
 }
 
 $height = 40;

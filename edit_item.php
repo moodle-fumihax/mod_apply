@@ -49,16 +49,16 @@ $usehtmleditor = jbxl_can_use_html_editor();
 
 
 if (($formdata = data_submitted()) and !confirm_sesskey()) {
-    print_error('invalidsesskey');
+    jbxl_print_error('invalidsesskey');
 }
 if (! $cm = get_coursemodule_from_id('apply', $cmid)) {
-    print_error('invalidcoursemodule');
+    jbxl_print_error('invalidcoursemodule');
 }
 if (! $course = $DB->get_record('course', array('id'=>$cm->course))) {
-    print_error('coursemisconf');
+    jbxl_print_error('coursemisconf');
 }
 if (! $apply = $DB->get_record('apply', array('id'=>$cm->instance))) {
-    print_error('invalidcoursemodule');
+    jbxl_print_error('invalidcoursemodule');
 }
 if (!$courseid) $courseid = $course->id;
 
@@ -83,7 +83,7 @@ else {
     $item = new stdClass();
     $item->id = null;
     $item->position = -1;
-    if (!$typ) print_error('typemissing', 'apply', $editurl->out(false));
+    if (!$typ) jbxl_print_error('typemissing', 'apply', $editurl->out(false));
     $item->typ = $typ;
     $item->options = '';
 }

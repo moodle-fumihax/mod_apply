@@ -49,20 +49,20 @@ $current_tab = '';
 ///////////////////////////////////////////////////////////////////////////
 // Form Data
 if (($formdata = data_submitted()) and !confirm_sesskey()) {
-    print_error('invalidsesskey');
+    jbxl_print_error('invalidsesskey');
 }
 
 
 ////////////////////////////////////////////////////////
 //get the objects
 if (! $cm = get_coursemodule_from_id('apply', $id)) {
-    print_error('invalidcoursemodule');
+    jbxl_print_error('invalidcoursemodule');
 }
 if (! $course = $DB->get_record('course', array('id'=>$cm->course))) {
-    print_error('coursemisconf');
+    jbxl_print_error('coursemisconf');
 }
 if (! $apply = $DB->get_record('apply', array('id'=>$cm->instance))) {
-    print_error('invalidcoursemodule');
+    jbxl_print_error('invalidcoursemodule');
 }
 if (!$courseid) $courseid = $course->id;
 
@@ -134,7 +134,7 @@ $err_message = '';
 
 if ($operate=='operate' and $sbmtted) {
     if (!$SESSION->apply->is_started) {
-        print_error('error', '', $CFG->wwwroot.'/mod/apply/view.php?id='.$id);
+        jbxl_print_error('error', '', $CFG->wwwroot.'/mod/apply/view.php?id='.$id);
     }
 
     // POST/GETデータを拾う
