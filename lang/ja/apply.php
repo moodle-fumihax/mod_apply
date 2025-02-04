@@ -18,7 +18,7 @@
  * Strings for component 'apply', language 'en', branch 'MOODLE_20_STABLE'
  *
  * @package   mod_apply
- * @copyright Fumi.Iseki {@link http://www.nsl.tuis.ac.jp}, 1999 onwards Martin Dougiamas  {@link http://moodle.com}
+ * @copyright Fumi.Iseki {@link https://polaris.star-dust.jp/pukiwiki/?Fumi.Hax}, 1999 onwards Martin Dougiamas  {@link http://moodle.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -309,7 +309,7 @@ $string['lastfirstname'] = '姓 名';
 $string['using_templates'] = 'テンプレートの使用';
 $string['vertical'] = '垂直';
 $string['view_entries'] = '申請書の表示';
-$string['wiki_url'] = 'http://www.nsl.tuis.ac.jp/xoops/modules/xpwiki/?mod_apply';
+$string['wiki_url'] = 'https://polaris.star-dust.jp/pukiwiki/?mod_apply+%28J%29';
 $string['yes_button'] = ' はい ';
 
 $string['submit_num'] = '申請数';
