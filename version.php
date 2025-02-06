@@ -33,7 +33,7 @@ $plugin->maturity  = MATURITY_STABLE;
 
 $plugin->release   = '1.5.2';       // update messages
 
-$plugin->version   = 2025020401;    // anyone submit option
+$plugin->version   = 2025020401;    // v1.5.2  for Moodle 4.5
 //$plugin->version = 2024040170;    // v1.5.0  merge Andrew Hancox's file upload function
 //$plugin->version = 2024010500;    // icon
 //$plugin->version = 2023112911;    // modified page show, add export function
