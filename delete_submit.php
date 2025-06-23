@@ -124,6 +124,9 @@ if (isset($formdata->confirmdelete) and $formdata->confirmdelete==1) {
                 apply_cancel_submit($submit_id);
                 $event = apply_get_event($cm, 'delete', $urlparams, 'cancel');
                 jbxl_add_to_log($event);
+                if ($apply->email_notification) {
+                    apply_send_email($cm, $apply, $course, $submit->user_id);
+                }
             }
             //
             redirect('view.php?id='.$id.'&do_show=view');
