@@ -1815,13 +1815,17 @@ function apply_item_box_start($item)
 {
     global $Table_in;
 
+    echo '<style type="text/css">';
+    include(__DIR__.'/html/html.css');
+    echo '</style>';
+
     if (!$Table_in) {
         $outside_style = '';
         if ($item->outside_style!='') $outside_style = 'style="'.$item->outside_style.'"';
-        echo '<table '.$outside_style,'>';
+        echo '<table class="noborder" '.$outside_style,'>';
     }
     else {
-        echo '<table style="border: 0px none;">';
+        echo '<table class="noborder" style="border: 0px none;">';
     }
     echo '<tr><td style="padding: 5px 5px 0px 5px;">';
 

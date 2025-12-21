@@ -75,10 +75,10 @@ $row[] = new tabobject('', $CFG->wwwroot.'/course/view.php?id='.$courseid, get_s
 if (count($row) > 1) {
     $tabs[] = $row;
 
-    echo '<table align="center" style="margin-bottom:0.0em;"><tr><td>';
     echo '<style type="text/css">';
     include('./html/html.css');
     echo '</style>';
+    echo '<table class="apply-tabs-center noborder" align="center" style="margin-bottom:0.0em;"><tr><td>';
     print_tabs($tabs, $current_tab, $inactive, $activated);
     echo '</td></tr></table>';
 }

@@ -1,3 +1,38 @@
+/************************************/
+
+body.path-mod-apply table.noborder,
+body.path-mod-apply table.noborder tr,
+body.path-mod-apply table.noborder td,
+body.path-mod-apply table.noborder th,
+/*body.path-mod-apply table.noborder thead,*/
+body.path-mod-apply table.noborder tbody {
+    border-style: none !important;
+}
+
+
+/* 外枠なしで中央寄せ（Flex 方式） */
+body.path-mod-apply .apply-tabs-center {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.0em;
+}
+
+
+/* table 自体が border:0 指定のものは「罫線なし」とみなしてセル罫線も消す */
+body table[style*="border: 0"][style*="none"] {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  border-collapse: collapse;
+}
+
+body table[style*="border: 0"][style*="none"] th,
+body table[style*="border: 0"][style*="none"] td {
+  border: 0 !important;
+}
+
+
+/************************************/
 
 input[type=text], .uneditable-input {
     max-width: 480px;
