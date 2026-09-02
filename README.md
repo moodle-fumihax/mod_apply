@@ -8,6 +8,7 @@
 * On the other hand user can "update" of the submitted application form, and "withdrawn", to perform the "cancellation".
 ## Moodle Plugins
 - https://moodle.org/plugins/mod_apply
+- Latest version 1.6.0 is for Moodle 5.x
 
 ## Install
 ```
